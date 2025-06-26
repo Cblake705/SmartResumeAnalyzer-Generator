@@ -4,7 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { Resume } from '../resumes/resume.entity';
 
 @Entity('users')
 export class User {
@@ -14,6 +17,7 @@ export class User {
   email: string;
 
   @Column()
+  @Exclude({ toPlainOnly: true })
   password: string;
 
   @CreateDateColumn()
@@ -21,4 +25,7 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Resume, (resume) => resume.user)
+  resumes: Resume[];
 }
